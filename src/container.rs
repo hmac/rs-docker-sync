@@ -40,7 +40,7 @@ pub struct ContainerInfo {
     // Config
     pub Created: String,
     pub Driver: String,
-    pub ExecDriver: String,
+    pub ExecDriver: Option<String>,
     // ExecIDs
     // HostConfig
     pub HostnamePath: String,
@@ -50,14 +50,14 @@ pub struct ContainerInfo {
     pub Image: String,
     pub MountLabel: String,
     pub Name: String,
-    // NetworkSettings
+    pub NetworkSettings: NetworkSettings,
     pub Path: String,
     pub ProcessLabel: String,
     pub ResolvConfPath: String,
     pub RestartCount: u64,
     // State
-    pub Volumes: HashMap<String, String>,
-    pub VolumesRW: HashMap<String, bool>,
+    pub Volumes: Option<HashMap<String, String>>,
+    pub VolumesRW: Option<HashMap<String, bool>>,
 }
 
 impl Clone for Container {
@@ -121,7 +121,7 @@ impl Clone for ContainerInfo {
             Image: self.Image.clone(),
             MountLabel: self.MountLabel.clone(),
             Name: self.Name.clone(),
-            // NetworkSettings
+            NetworkSettings: self.NetworkSettings.clone(),
             Path: self.Path.clone(),
             ProcessLabel: self.ProcessLabel.clone(),
             ResolvConfPath: self.ResolvConfPath.clone(),
@@ -285,6 +285,20 @@ impl Default for ContainerCreate {
             StopTimeout: None,
             Shell: None,
             HostConfig: None,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[allow(non_snake_case)]
+pub struct NetworkSettings {
+    pub Ports: HashMap<String, Option<Vec<PortBinding>>>,
+}
+
+impl Clone for NetworkSettings {
+    fn clone(&self) -> Self {
+        NetworkSettings {
+            Ports: self.Ports.clone(),
         }
     }
 }

@@ -312,10 +312,10 @@ impl Docker {
         }
     }
 
-    pub fn get_container_info(&mut self, container: &Container) -> std::io::Result<ContainerInfo> {
+    pub fn get_container_info(&mut self, container_id: &str) -> std::io::Result<ContainerInfo> {
         let body = self.request(
             Method::GET,
-            &format!("/containers/{}/json", container.Id),
+            &format!("/containers/{}/json", container_id),
             "".to_string(),
         )?;
 
