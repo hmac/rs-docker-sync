@@ -169,6 +169,7 @@ pub struct HostConfigCreate {
     pub PortBindings: Option<HashMap<String, Vec<PortBinding>>>,
     pub AutoRemove: Option<bool>,
     pub Binds: Option<Vec<String>>,
+    pub ExtraHosts: Option<Vec<String>>,
 }
 
 impl Clone for HostConfigCreate {
@@ -179,6 +180,7 @@ impl Clone for HostConfigCreate {
             PortBindings: self.PortBindings.clone(),
             AutoRemove: self.AutoRemove.clone(),
             Binds: self.Binds.clone(),
+            ExtraHosts: self.ExtraHosts.clone(),
         }
     }
 }
